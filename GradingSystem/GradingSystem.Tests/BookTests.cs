@@ -5,47 +5,124 @@ using GradingSystem;
 namespace GradingSystem.Tests
 {
     public class BookTests
-    {
-        [Fact]
-        public void TestBookStatistics()
-        {
+	{
+		[Theory]
+		[InlineData(-1)]
+		[InlineData(101)]
+		public void AddGrade_InvalidGrade_ReturnsNaN(double input)
+		{
+			Book book = new Book("0");
+
+			book.AddGrade(input);
+			var result = book.GetStatistics();
+
+			Assert.True(double.IsNaN(result.Average));
+		}
+
+		[Theory]
+		[InlineData(90, 'A')]
+		[InlineData(80, 'B')]
+		[InlineData(70, 'C')]
+		[InlineData(60, 'D')]
+		[InlineData(50, 'F')]
+		public void GetStatistics_MultipleNumbers_ReturnsLetterGrade(int input, char expected)
+		{
 			// Arrange
 			Book book = new Book("Sam's Gradebook");
-			book.AddGrade(91.0);
-			book.AddGrade(54.4);
-			book.AddGrade(77.3);
 
 			// Act 
+			book.AddGrade(input);
 			var result = book.GetStatistics();
 
 			// Assert
-			Assert.Equal(74.23, result.Average, 2);
-			// Whilst I was testing this line I found a typo, so thats helpful!!
-			Assert.Equal(91.0, result.High, 2);
-			Assert.Equal(54.4, result.Low, 2);
-
+			Assert.Equal(expected, result.Letter);
 		}
 
 
-		/// Here we are using unit testing to verfy how initialising objects in 
-		/// different ways can either create a new object or reference another one
-		[Fact]
-		public void GetBookCreatesUniqueObjects()
-		{
-			var book1 = GetBook("Book 1");
-			var book2 = GetBook("Book 2");
 
-			Assert.Equal("Book 1", book1.Name);
-			Assert.Equal("Book 2", book2.Name);
+		[Theory]
+		[InlineData(1, 2, 3)]
+        public void GetStatistics_MultipleNumbers_ReturnsAverageOfNumbers(double input1, double input2, double input3)
+		{
+			// Arrange
+			Book book = new Book("Sam's Gradebook");
+
+			// Act 
+			book.AddGrade(input1, input2, input3);
+			var result = book.GetStatistics();
+
+			// Assert
+			Assert.Equal(2, result.Average, 2);
 		}
 
 		[Fact]
-		public void TwoVarsCanReferenceSameObject()
+		public void OutAddGrade_Number_ReturnsThatNumber()
 		{
-			var book1 = GetBook("Book 1");
+			var book = new Book("0");
+				
+			OutAddGrade(out book, 1, "1");
+			var result = book.GetStatistics();
+
+			Assert.Equal(1, result.Average);
+		}
+
+		[Fact]
+		public void RefAddGrade_Number_ReturnsThatNumber()
+		{
+			var book = GetBook("0");
+
+			RefAddGrade(ref book, 1, "1");
+			var result = book.GetStatistics();
+
+			Assert.Equal(1, result.Average);
+		}
+
+		[Fact]
+		public void AddGrade_Number_ReturnsNaN()
+		{
+			var book = GetBook("0");
+
+			AddGrade(book, 1, "1");
+			var result = book.GetStatistics();
+
+			Assert.True(double.IsNaN(result.Average));
+		}
+
+		[Fact]
+		public void GetBook_CreateTwoBooks_MakesUniqueObjects()
+		{
+			var book1 = GetBook("0");
+			var book2 = GetBook("1");
+
+			Assert.Equal("0", book1.Name);
+			Assert.Equal("1", book2.Name);
+		}
+		
+		[Fact]
+		public void GetBook_BooksEqual_BooksReferenceEachOther()
+		{
+			var book1 = GetBook("0");
 			var book2 = book1;
 
 			Assert.Same(book1, book2);
+		}
+
+		void AddGrade(Book book, double grade, string name)
+		{
+			book = new Book(name);
+			book.AddGrade(grade);
+		}
+
+		void OutAddGrade(out Book book, double grade, string name)
+		{
+			book = new Book(name);
+			book.AddGrade(grade);
+		}
+
+		void RefAddGrade(ref Book book, double grade, string name)
+		{
+			book = new Book(name);
+			book.AddGrade(grade);
 		}
 
 		Book GetBook(string name)

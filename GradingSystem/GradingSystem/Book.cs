@@ -4,31 +4,64 @@ using System.Text;
 
 namespace GradingSystem
 {
-    public class Book
-    {
-		/// Using a readonly access modifier lets the name only be set in the 
-		/// constructor or when it is initialised
-        public readonly string Name;
-        private List<double> grades = new List<double>();
+	public class Book
+	{
+		/*	Using a readonly access modifier lets the name only be set in the 
+			constructor or when it is initialised */
+		public readonly string Name;
+		private List<double> grades;
 
-		// This is a constructor and runs when the class is instantiated
+		//	This is a constructor and runs when the class is instantiated
 		public Book(string name)
-        {
-            Name = name;
-        }
-
-		// This is a public method which takes a parameter
-        public void AddGrade(double grade)
-        {
-            grades.Add(grade);
-        }
-
-		/// The another method can have the same name if it has a different
-		/// method signature, this can be achieved by taking different 
-		/// parameters
-		public void AddGrade(char grade)
 		{
+			Name = name;
+			grades = new List<double>();
+		}
 
+		//	This is a public method which takes a parameter
+		public void AddGrade(params double[] grade)
+		{
+			foreach (double number in grade)
+			{
+				if (number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE)
+				{
+					grades.Add(number);
+				}
+				else
+				{
+					throw new ArgumentException($"Invalid {nameof(grade)}");
+				}
+			}
+
+		}
+
+		/*	The another method can have the same name if it has a different
+			method signature, this can be achieved by taking different 
+			parameters */
+		public void AddGrade(char letter)
+		{
+			switch (letter)
+			{
+				case 'A':
+					AddGrade(90);
+					break;
+
+				case 'B':
+					AddGrade(80);
+					break;
+
+				case 'C':
+					AddGrade(70);
+					break;
+
+				case 'D':
+					AddGrade(60);
+					break;
+
+				default:
+					AddGrade(0);
+					break;
+			}
 		}
 
 		public Statistics GetStatistics()
@@ -43,7 +76,30 @@ namespace GradingSystem
 			}
 			result.Average /= grades.Count;
 
+			switch (result.Average)
+			{
+				case var grade when grade >= 90.0:
+					result.Letter = 'A';
+					break;
+
+				case var grade when grade >= 80.0:
+					result.Letter = 'B';
+					break;
+
+				case var grade when grade >= 70.0:
+					result.Letter = 'C';
+					break;
+
+				case var grade when grade >= 60.0:
+					result.Letter = 'D';
+					break;
+
+				default:
+					result.Letter = 'F';
+					break;
+			}
+
 			return result;
 		}
-    }
+	}
 }

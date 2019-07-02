@@ -6,15 +6,14 @@ namespace GradingSystem
 {
     public class Statistics
     {
-		public double Average;
-		public double High;
-		public double Low;
-
+		public double Average, High, Low;
+		public const double MAXGRADE = 100, MINGRADE =0;
+		public char Letter;
 		public Statistics()
 		{
 			Average = 0.0;
-			High = double.MinValue;
-			Low = double.MaxValue;
+			High = MINGRADE;
+			Low = MAXGRADE;
 		}
     }
 }
