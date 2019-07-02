@@ -4,8 +4,25 @@ using GradingSystem;
 
 namespace GradingSystem.Tests
 {
-    public class BookTests
+	public delegate string WriteLogDelegate(string logMessage);
+
+	public class BookTests
 	{
+		[Fact]
+		public void WriteLogDelegate_ProvideMethod_ReturnsString()
+		{
+			WriteLogDelegate log = ReturnMessage;
+
+			var result = log("Heya!");
+
+			Assert.Equal("Heya!", result);
+		}
+
+		string ReturnMessage(string message)
+		{
+			return message;
+		}
+
 		[Theory]
 		[InlineData(-1)]
 		[InlineData(101)]
@@ -28,7 +45,7 @@ namespace GradingSystem.Tests
 		public void GetStatistics_MultipleNumbers_ReturnsLetterGrade(int input, char expected)
 		{
 			// Arrange
-			Book book = new Book("Sam's Gradebook");
+			Book book = new Book("0");
 
 			// Act 
 			book.AddGrade(input);
@@ -38,14 +55,12 @@ namespace GradingSystem.Tests
 			Assert.Equal(expected, result.Letter);
 		}
 
-
-
 		[Theory]
 		[InlineData(1, 2, 3)]
-        public void GetStatistics_MultipleNumbers_ReturnsAverageOfNumbers(double input1, double input2, double input3)
+		public void GetStatistics_MultipleNumbers_ReturnsAverageOfNumbers(double input1, double input2, double input3)
 		{
 			// Arrange
-			Book book = new Book("Sam's Gradebook");
+			Book book = new Book("0");
 
 			// Act 
 			book.AddGrade(input1, input2, input3);
@@ -59,7 +74,7 @@ namespace GradingSystem.Tests
 		public void OutAddGrade_Number_ReturnsThatNumber()
 		{
 			var book = new Book("0");
-				
+
 			OutAddGrade(out book, 1, "1");
 			var result = book.GetStatistics();
 
@@ -97,7 +112,7 @@ namespace GradingSystem.Tests
 			Assert.Equal("0", book1.Name);
 			Assert.Equal("1", book2.Name);
 		}
-		
+
 		[Fact]
 		public void GetBook_BooksEqual_BooksReferenceEachOther()
 		{

@@ -4,17 +4,31 @@ using System.Text;
 
 namespace GradingSystem
 {
-	public class Book
+	public class NamedObject
+	{
+		public readonly string Name;
+
+		public NamedObject(string name)
+		{
+			if (!string.IsNullOrEmpty(name))
+			{
+				Name = name;
+			}
+		}
+	}
+
+
+	public class Book : NamedObject
 	{
 		/*	Using a readonly access modifier lets the name only be set in the 
 			constructor or when it is initialised */
-		public readonly string Name;
+		public event GradeAddedDelegate GradeAdded;
+
 		private List<double> grades;
 
 		//	This is a constructor and runs when the class is instantiated
-		public Book(string name)
+		public Book(string name) : base(name)
 		{
-			Name = name;
 			grades = new List<double>();
 		}
 
@@ -26,6 +40,7 @@ namespace GradingSystem
 				if (number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE)
 				{
 					grades.Add(number);
+					GradeAdded?.Invoke(this, new EventArgs());
 				}
 				else
 				{
