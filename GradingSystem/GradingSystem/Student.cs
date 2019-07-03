@@ -4,7 +4,8 @@ using System.Text;
 
 namespace GradingSystem
 {
-    class Student
-    {
-    }
+	class Student : Person
+	{
+		public Student(string name, int year) : base(name, year) { }
+	}
 }

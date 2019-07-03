@@ -11,6 +11,35 @@ namespace GradingSystem
 	{
 		static void Main(string[] args)
 		{
+			Login();
+
+
+		}
+
+		private static void Login()
+		{
+			Console.WriteLine($"Login: {Environment.NewLine}Are you a 'S'tudent" +
+				$" or a 'T'eacher? {Environment.NewLine}Enter 'S' or 'T'");
+			var input = Console.ReadLine();
+			switch (input)
+			{
+				case "S":
+					//student
+					break;
+
+				case "T":
+					//Teacher
+					break;
+
+				default:
+					Console.WriteLine("Try again please");
+					break;
+			}
+
+		}
+
+		private void BookEntrance()
+		{
 			var diskBook = new DiskBook("DiskBook");
 			diskBook.GradeAdded += OnGradeAdded;
 			EnterGrades(diskBook);
@@ -51,7 +80,7 @@ namespace GradingSystem
 
 		static void OnGradeAdded(object sender, EventArgs e)
 		{
-			
+
 		}
 	}
 }
