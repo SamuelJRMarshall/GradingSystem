@@ -28,7 +28,7 @@ namespace GradingSystem.Tests
 		[InlineData(101)]
 		public void AddGrade_InvalidGrade_ReturnsNaN(double input)
 		{
-			Book book = new Book("0");
+			InMemoryBook book = new InMemoryBook("0");
 
 			book.AddGrade(input);
 			var result = book.GetStatistics();
@@ -45,7 +45,7 @@ namespace GradingSystem.Tests
 		public void GetStatistics_MultipleNumbers_ReturnsLetterGrade(int input, char expected)
 		{
 			// Arrange
-			Book book = new Book("0");
+			InMemoryBook book = new InMemoryBook("0");
 
 			// Act 
 			book.AddGrade(input);
@@ -60,7 +60,7 @@ namespace GradingSystem.Tests
 		public void GetStatistics_MultipleNumbers_ReturnsAverageOfNumbers(double input1, double input2, double input3)
 		{
 			// Arrange
-			Book book = new Book("0");
+			InMemoryBook book = new InMemoryBook("0");
 
 			// Act 
 			book.AddGrade(input1, input2, input3);
@@ -73,7 +73,7 @@ namespace GradingSystem.Tests
 		[Fact]
 		public void OutAddGrade_Number_ReturnsThatNumber()
 		{
-			var book = new Book("0");
+			var book = new InMemoryBook("0");
 
 			OutAddGrade(out book, 1, "1");
 			var result = book.GetStatistics();
@@ -122,27 +122,27 @@ namespace GradingSystem.Tests
 			Assert.Same(book1, book2);
 		}
 
-		void AddGrade(Book book, double grade, string name)
+		void AddGrade(InMemoryBook book, double grade, string name)
 		{
-			book = new Book(name);
+			book = new InMemoryBook(name);
 			book.AddGrade(grade);
 		}
 
-		void OutAddGrade(out Book book, double grade, string name)
+		void OutAddGrade(out InMemoryBook book, double grade, string name)
 		{
-			book = new Book(name);
+			book = new InMemoryBook(name);
 			book.AddGrade(grade);
 		}
 
-		void RefAddGrade(ref Book book, double grade, string name)
+		void RefAddGrade(ref InMemoryBook book, double grade, string name)
 		{
-			book = new Book(name);
+			book = new InMemoryBook(name);
 			book.AddGrade(grade);
 		}
 
-		Book GetBook(string name)
+		InMemoryBook GetBook(string name)
 		{
-			return new Book(name);
+			return new InMemoryBook(name);
 		}
 	}
 }

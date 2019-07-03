@@ -11,12 +11,12 @@ namespace GradingSystem
 	{
 		static void Main(string[] args)
 		{
-			var book = new Book("Book");
-			book.GradeAdded += OnGradeAdded;
-			EnterGrades(book);
+			var diskBook = new DiskBook("DiskBook");
+			diskBook.GradeAdded += OnGradeAdded;
+			EnterGrades(diskBook);
 		}
 
-		private static void EnterGrades(Book book)
+		private static void EnterGrades(IBook book)
 		{
 			while (true)
 			{
