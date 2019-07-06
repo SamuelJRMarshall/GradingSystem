@@ -17,19 +17,29 @@ namespace GradingSystem
 		public string Name
 		{
 			get;
+
 		}
 
-		public Person(string name, int year)
+		private string ID;
+
+		public Person ( string iD, string name = "?", int year = 7 )
 		{
-			if (!string.IsNullOrEmpty(name))
+			ID = iD;
+
+			if ( !string.IsNullOrEmpty ( name ) )
 			{
 				Name = name;
 			}
 
-			if(year >= MINYEAR && year <= MAXYEAR)
+			if ( year >= MINYEAR && year <= MAXYEAR )
 			{
 				Year = year;
 			}
+
+		}
+
+		public Person ( )
+		{
 		}
 	}
 }

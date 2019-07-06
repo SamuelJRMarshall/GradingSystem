@@ -14,11 +14,9 @@ namespace GradingSystem
 		public string Deparment;
 		public string Honorific;
 
-		public Teacher(string name, int year, string subject, string department, string honorific) : base(name, year)
+		public Teacher ( string iD ) : base ( iD )
 		{
-			Subject = subject;
-			Deparment = department;
-			Honorific = honorific;
+
 		}
 	}
 }

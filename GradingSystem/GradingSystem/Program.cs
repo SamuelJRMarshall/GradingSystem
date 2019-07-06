@@ -1,58 +1,61 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-/// <summary>
-/// This code was created whilst following the C# Fundamentals course on Pluralsight
-/// </summary>
-
 namespace GradingSystem
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main ( string[ ] args )
 		{
-			Login();
 
-
+			Login ( );
 		}
 
-		private static void Login()
+		private static void Login ( )
 		{
-			Console.WriteLine($"Login: {Environment.NewLine}Are you a 'S'tudent" +
-				$" or a 'T'eacher? {Environment.NewLine}Enter 'S' or 'T'");
-			var input = Console.ReadLine();
-			switch (input)
+			Console.WriteLine ( $"Login: {Environment.NewLine} Enter your 6 Digit ID" );
+			var person = new Person ( );
+			FindById ( Console.ReadLine ( ), out person );
+		}
+
+		private static void FindById ( string input, out Person person )
+		{
+			if ( input.Length == 6 )
 			{
-				case "S":
-					//student
-					break;
+				switch ( input )
+				{
+					case var i when i.Contains ( "T" ):
+						person = new Teacher ( input );
+						break;
 
-				case "T":
-					//Teacher
-					break;
-
-				default:
-					Console.WriteLine("Try again please");
-					break;
+					default:
+						var student = new Student ( input );
+						break;
+				}
 			}
-
-		}
-
-		private void BookEntrance()
-		{
-			var diskBook = new DiskBook("DiskBook");
-			diskBook.GradeAdded += OnGradeAdded;
-			EnterGrades(diskBook);
-		}
-
-		private static void EnterGrades(IBook book)
-		{
-			while (true)
+			else
 			{
-				Console.WriteLine("Enter a grade or 'q' to quit");
-				var input = Console.ReadLine();
+				Console.WriteLine ( "Incorrect ID, please try again, the ID must be in the format '######'" );
+				FindById ( Console.ReadLine ( ), out person );
+			}
+		}
 
-				if (input == "q")
+
+		private void OldBookEntrance ( )
+		{
+			var diskBook = new DiskBook ( "DiskBook" );
+			diskBook.GradeAdded += OnGradeAdded;
+			EnterGrades ( diskBook );
+		}
+
+		private static void EnterGrades ( IBook book )
+		{
+			while ( true )
+			{
+				Console.WriteLine ( "Enter a grade or 'q' to quit" );
+				var input = Console.ReadLine ( );
+
+				if ( input == "q" )
 				{
 					break;
 				}
@@ -64,21 +67,21 @@ namespace GradingSystem
 					//var isNumeric = int.TryParse(input, out int n);
 					//bool containsLetter = Regex.IsMatch(myString, "[A-Z]");
 					#endregion
-					var grade = double.Parse(input);
-					book.AddGrade(grade);
+					var grade = double.Parse ( input );
+					book.AddGrade ( grade );
 				}
-				catch (FormatException ex)
+				catch ( FormatException ex )
 				{
-					Console.WriteLine(ex);
+					Console.WriteLine ( ex );
 				}
-				catch (ArgumentException ex)
+				catch ( ArgumentException ex )
 				{
-					Console.WriteLine(ex);
+					Console.WriteLine ( ex );
 				}
 			}
 		}
 
-		static void OnGradeAdded(object sender, EventArgs e)
+		static void OnGradeAdded ( object sender, EventArgs e )
 		{
 
 		}

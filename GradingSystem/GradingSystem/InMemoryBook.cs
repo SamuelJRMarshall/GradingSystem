@@ -8,23 +8,23 @@ namespace GradingSystem
 	{
 		public override event GradeAddedDelegate GradeAdded;
 
-		public InMemoryBook(string name) : base(name)
+		public InMemoryBook ( string name ) : base ( name )
 		{
-			Grades = new List<double>();
+			Grades = new List<double> ( );
 		}
-		
-		public override void AddGrade(params double[] grade)
+
+		public override void AddGrade ( params double[ ] grade )
 		{
-			foreach (double number in grade)
+			foreach ( double number in grade )
 			{
-				if (number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE)
+				if ( number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE )
 				{
-					Grades.Add(number);
-					GradeAdded?.Invoke(this, new EventArgs());
+					Grades.Add ( number );
+					GradeAdded?.Invoke ( this, new EventArgs ( ) );
 				}
 				else
 				{
-					throw new ArgumentException($"Invalid {nameof(grade)}");
+					Console.WriteLine ( $"Invalid {nameof ( grade )}" );
 				}
 			}
 

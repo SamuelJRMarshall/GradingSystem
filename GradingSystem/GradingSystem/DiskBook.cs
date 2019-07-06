@@ -9,43 +9,43 @@ namespace GradingSystem
 	{
 		public override event GradeAddedDelegate GradeAdded;
 
-		public DiskBook(string name) : base(name)
+		public DiskBook ( string name ) : base ( name )
 		{
-			Grades = new List<double>();
-			LoadFile();
+			Grades = new List<double> ( );
+			LoadFile ( );
 		}
 
-		public override void AddGrade(params double[] grade)
+		public override void AddGrade ( params double[ ] grade )
 		{
-			foreach (double number in grade)
+			foreach ( double number in grade )
 			{
-				if (number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE)
+				if ( number >= Statistics.MINGRADE && number <= Statistics.MAXGRADE )
 				{
-					using (var writer = File.AppendText($"{Name}.txt"))
+					using ( var writer = File.AppendText ( $"{Name}.txt" ) )
 					{
-						writer.WriteLine(number);
+						writer.WriteLine ( number );
 					}
 
-					GradeAdded?.Invoke(this, new EventArgs());
+					GradeAdded?.Invoke ( this, new EventArgs ( ) );
 				}
 				else
 				{
-					throw new ArgumentException($"Invalid {nameof(grade)}");
+					Console.WriteLine ( $"Invalid {nameof ( grade )}" );
 				}
 			}
 
 		}
 
-		public void LoadFile()
+		public void LoadFile ( )
 		{
-			using (var reader = File.OpenText($"{Name}.txt"))
+			using ( var reader = File.OpenText ( $"{Name}.txt" ) )
 			{
-				var line = reader.ReadLine();
-				while (line != null)
+				var line = reader.ReadLine ( );
+				while ( line != null )
 				{
-					var number = double.Parse(line);
-					Grades.Add(number);
-					line = reader.ReadLine();
+					var number = double.Parse ( line );
+					Grades.Add ( number );
+					line = reader.ReadLine ( );
 				}
 			}
 		}

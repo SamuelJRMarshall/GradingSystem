@@ -6,6 +6,9 @@ namespace GradingSystem
 {
 	class Student : Person
 	{
-		public Student(string name, int year) : base(name, year) { }
+		public Student ( string iD ) : base ( iD )
+		{
+
+		}
 	}
 }
